@@ -1,7 +1,14 @@
 # Email Sniffer
 from scapy.all import *
 
-print("~: EMAIL SNIFFER + STEALER :~")
+print("""
+
+ __           __     _ _       __             
+|_  _  _ .|  (_  _ .(_(_ _ _  (_ |_ _ _ | _ _ 
+|__|||(_|||  __)| )|| | (-|   __)|_(-(_||(-|  
+                                              
+
+~: EMAIL SNIFFER + STEALER :~ """)
 
 # fire up our sniffer
 mode = eval(input("Choose a mode \n[1] Sniff \n[2] Steal \n"))
