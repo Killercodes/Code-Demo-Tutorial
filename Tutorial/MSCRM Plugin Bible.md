@@ -1,6 +1,6 @@
-# MS Dynamics CRM Plug-ins
+# MS Dynamics CRM Plug-ins & Workflows
 
-# Overview
+# Plugin Overview
 We can use CRM 2011 Plug-ins to perform an action on create, on delete and update events of records. You also use the new transaction feature in Plug-ins to group operations on multiple entities and to roll back these operations as a group on failure.
 
 Plug-ins allows a CRM 2011 developer to execute custom code as part of an event pipeline provided by the CRM Application Framework.  Plug-ins allow you to execute code when records are created, updated, deleted, assigned or have their state changed. 
@@ -109,9 +109,8 @@ Generally, if developing custom code and assemblies, working with plug-ins is mo
 ## Information Available to Plug-ins
 After a plug-in is registered for a given entity and event, the system can call a well-defined plug-in method to execute custom logic when the event occurs. As part of the invocation of a plug-in, entity and user context information is passed to the plug-in.
 
-It is also possible in the registration process to define custom configuration information to be passed to a plug-in. Additionally, the state of an entity before and after the platform operation can be passed to a plug-in. This is passed in the `PreEntityImages` and ` arrays. The registration process defines which information is available in these arrays.
+It is also possible in the registration process to define custom configuration information to be passed to a plug-in. Additionally, the state of an entity before and after the platform operation can be passed to a plug-in. This is passed in the `PreEntityImages` and  arrays. The registration process defines which information is available in these arrays.
  
-
 ## Plug-ins and the Outlook Client
 Plug-ins can be registered to execute in online mode or both Online and Offline. Offline mode is only supported on the Microsoft Dynamics CRM for Outlook® with Offline Access client. Plug-ins can check whether it is executing in offline mode by checking the IsExecutingOffline property of the execution context.
 
@@ -135,9 +134,10 @@ The pluginassembly class is used to define an assembly entity in Microsoft Dynam
 - In Microsoft Dynamics CRM, plug-in assemblies must be readable by everyone to work correctly. Therefore, it is a  security best practice to develop plug-in code that does not contain any system logon information, confidential information, or company trade secrets.
 - Each plug-in assembly must be signed, either by using the Signing tab of the project's properties sheet in  Microsoft Visual Studio 2010 or the Strong Name tool, before being registered and deployed to Microsoft Dynamics CRM. For more information about the Strong Name tool, run the sn.exe program, without any arguments, from a Visual Studio 2010 Command Prompt window.
 - If your assembly contains a plug-in that can execute while the Microsoft Dynamics CRM for Outlook is offline, there is additional security that the Microsoft Dynamics CRM platform imposes on assemblies. 
-# Writing a Basic Plug-in:
 
+# Writing a Basic Plug-in:
 Plug-ins are custom classes that implement the IPlugin interface. You can write a plug-in in any .NET Framework 4 CLR-compliant language such as Microsoft Visual C# and Microsoft Visual Basic .NET. To be able to compile plug-in code, you must add Microsoft.Xrm.Sdk.dll and Microsoft.Crm.Sdk.Proxy.dll assembly references to your project. These assemblies can be found in the SDK\Bin folder of the SDK download.
+
 ## A Sample Plug-in
 So you now know about the powerful plug-in capabilities and the extensive data passed to a plug-in at run-time. But what does plug-in code look like? Here is a very basic plug-in that displays "Hello world!" in a dialog to the user.
 ```csharp
@@ -278,7 +278,6 @@ namespace MyPlugins
 ```
 The first string parameter of the constructor contains public (unsecure) information. The second string parameter contains non-public (secure) information. However, the secure string is not passed to a plug-in that executes while offline.
 
-
 The information that is passed to the plug-in constructor in these two strings is specified when the plug-in is registered with Microsoft Dynamics CRM. When you use the PluginRegistration tool to register a plug-in, you can enter the secure and unsecure information in the Secure Configuration and Unsecure Configuration fields provided in the Register New Step form. The PluginDeveloper tool only supports the unsecure string through its CustomConfiguration attribute of the Step tag in the register.xml input file.
 When using Microsoft Dynamics CRM for Microsoft Office Outlook with Offline Access, the secure string is not passed to a plug-in that executes while Microsoft Dynamics CRM for Outlook is offline.
 
@@ -296,7 +295,6 @@ Imagine that you include a plugin, plugin steps and activate them in a solution.
 > Pitfall:  Consider a scenario that you have developed a plugin and certain parameter strings are designed tosupply to the plugin in such a way that it is required to run the plugin smoothly.If you supply these parameter strings under secure configuration then the plugin will work fine only for the CRM Administrators. The simple reason is secure configuration can only be read by a CRM Administrator. So if the user is not a CRM administrator then the plugin would try to readbut it would fail just because its under the secure configuration.All public information should be supplied via Unsecure configuration section. So please remember these tips when you supply the secure and unsecure configuration via Plugin Registration tool.
 
  
-
 # Passing Data Between Plug-ins
 The message pipeline model provides for a PropertyBag of custom data values in the execution context that is passed through the pipeline and shared among registered plug-ins. This collection of data can be used by different plug-ins to communicate information between plug-ins and enable chain processing where data processed by one plug-in can be processed by the next plug-in in the sequence and so on. This feature is especially useful in pricing engine scenarios where multiple pricing plug-ins pass data between one another to calculate the total price for a sales order or invoice. Another potential use for this feature is to communicate information between a plug-in registered for a pre-event and a plug-in registered for a post-event.
 
@@ -543,17 +541,45 @@ Two types of Images are supported, Pre-Image and Post Image.
 - **Post Image:** returns the image of the record after the CRM Platform action has been performed. As developers, you may have at times, received the following error when trying to implement a plugin.
 
 In general `PreEntityImages` and `PostEntityImages` contain snapshots of the primary entity's attributes before (pre) and after (post) the core platform operation. Microsoft Dynamics CRM populates the pre-entity and post-entity images based on the security privileges of the impersonated system user. 
-Only entity attributes that are set to a value or null are available in the pre or post entity images. You can specify to have the platform populate these `PreEntityImages` and ` properties when you register your plug-in. The entity alias value you specify during plug-in registration is used as the key into the image collection in your plug-in code.
+Only entity attributes that are set to a value or null are available in the pre or post entity images. You can specify to have the platform populate these `PreEntityImages` and `PostEntityImages` properties when you register your plug-in. The entity alias value you specify during plug-in registration is used as the key into the image collection in your plug-in code.
 
-Registering for pre or post images to access entity attribute values results in improved plug-in performance as compared to obtaining entity attributes in plug-in code through RetrieveRequest or RetrieveMultipleRequest requests.
+PreEntityImages is basically used to capture the data when the form loads. That is the data which is present by default when the form loads. 
 
+Suppose you registered the Plugin and added a Image with name _PreImage_
+```cs
+Entity preMessageImage;
+
+if (context.PreEntityImages.Contains("PreImage") && context.PreEntityImages["PreImage"] is Entity)
+{
+	preMessageImage = (Entity)context.PreEntityImages["PreImage"];
+```
+
+whereas the Post Image contains the attributes value which are finally changed. We can capture the changed data before the database operation takes place. And can do any kind of validation based on the changed data. Remember it can only be registered  for update message and cannot be registered on create message.
+
+```cs
+Entity postMessageImage;
+
+if (context.PostEntityImages.Contains("PostImage") && context.PostEntityImages["PostImage"] is Entity)
+{
+	postMessageImage = (Entity)context.PostEntityImages["PostImage"];
+```
+
+
+Registering for pre or post images to access entity attribute values results in improved plug-in performance as compared to obtaining entity attributes in plug-in code through RetrieveRequest or RetrieveMultipleRequest requests.The PreEntityImages and PostEntityImages are Very useful in Scenarios where we want to compare the data that is changed by the user. Based on the changes the custom operation can be performed.
+
+TO sum up here are the different ways to capture the Images form the Context when the "PreImage" & "PostImage" is defined
+```cs
+Entity entity = (Entity)context.InputParameters["Target"];
+Entity preentity = (Entity)context.PreEntityImages["PreImage"];
+Entity postentity = (Entity)context.PostEntityImages["PostImage"];
+```
 
 It is there important to understand when the images would be available and what state of the record would be returned in these images.
 
-There are some events where images are not available. For example, only synchronous post-event and  asynchronous registered plug-ins have ` populated. In addition, the create operation does not support a pre-image and a delete operation does not support a post-image.
+There are some events where images are not available. For example, only synchronous post-event and  asynchronous registered plug-ins have populated. In addition, the create operation does not support a pre-image and a delete operation does not support a post-image.
 
 
-Say you were to register a “Pre-Image” for a plugin registered in Pre-Create Stage. We just mentioned above, that the image is a copy of the record as is stored in the SQL backend. Since this is the create stage and the record has not even been created as yet, there is no record in the SQL backend that can be returned in the Pre-Image and hence any call for the image would fail with the above error message.
+Say you were to register a "Pre-Image" for a plugin registered in Pre-Create Stage. We just mentioned above, that the image is a copy of the record as is stored in the SQL backend. Since this is the create stage and the record has not even been created as yet, there is no record in the SQL backend that can be returned in the Pre-Image and hence any call for the image would fail with the above error message.
 
 The following table explains the Pre-Image & Post-Image Availability
 
@@ -684,7 +710,7 @@ Step registration informs the Microsoft Dynamics CRM system about the conditions
 An array of SdkMessageProcessingStepRegistrationinstances is used to set the Stepsproperty of RegisterSolutionRequest. Note that for custom workflow activities, no steps need to be defined.
 Pre and Post Event Images
 
-Images are snapshots of an entity's attributes at a given moment in time. The  SdkMessageProcessingStepImageRegistrationclass identifies a named list of entity attributes whose values are to be made available at run time to the registered plug-in. A plug-in can access these images through the `PreEntityImages` and ` properties of IPluginExecutionContext. Whether the image is obtained during the pre-event or post-event of the event execution pipeline depends on which stagethe associated SdkMessageProcessingStepRegistrationinstance is being registered for. 
+Images are snapshots of an entity's attributes at a given moment in time. The  SdkMessageProcessingStepImageRegistrationclass identifies a named list of entity attributes whose values are to be made available at run time to the registered plug-in. A plug-in can access these images through the `PreEntityImages` and `PostEntityImages` properties of IPluginExecutionContext. Whether the image is obtained during the pre-event or post-event of the event execution pipeline depends on which stagethe associated SdkMessageProcessingStepRegistrationinstance is being registered for. 
 An array of SdkMessageProcessingStepImageRegistrationinstances is used to set the Imagesproperty of SdkMessageProcessingStepRegistration.
 
 >**Tip:** Registering for pre or post images to access entity attribute values results in improved plug-in performance as compared to obtaining entity attributes in plug-in code through Retrieve or RetrieveMultiple requests.
@@ -742,7 +768,9 @@ Register New Step
  
 
 ## Plug-in Storage
-Plug-ins can be deployed to the Microsoft Dynamics CRM server's database or the file system that is known as "on-disk". We strongly recommend that you deploy your plug-ins in the Microsoft Dynamics CRM database, instead of on-disk, as the primary way to deploy plug-ins for Microsoft Dynamics CRM. Plug-ins stored in the database are automatically distributed across multiple Microsoft Dynamics CRM servers in a datacenter cluster. On-disk deployment of plug-ins is supported for backward compatibility with Microsoft Dynamics CRM 3.0 callouts and also to support debugging of plug-ins by using Visual Studio 2005.
+Plug-ins can be deployed to the Microsoft Dynamics CRM server's database or the file system that is known as "on-disk". We strongly recommend that you deploy your plug-ins in the Microsoft Dynamics CRM database, instead of on-disk, as the primary way to deploy plug-ins for Microsoft Dynamics CRM. 
+
+> Plug-ins stored in the database are automatically distributed across multiple Microsoft Dynamics CRM servers in a datacenter cluster. On-disk deployment of plug-ins is supported for backward compatibility with Microsoft Dynamics CRM 3.0 callouts and also to support debugging of plug-ins by using Visual Studio 2005.
 
 Plug-ins not registered in the sandbox can be stored in the Microsoft Dynamics CRM server's database or the on-disk file system. It is strongly recommended to store production-ready plug-ins in the Microsoft Dynamics CRM database, instead of on-disk. Plug-ins stored in the database are automatically distributed across multiple Microsoft Dynamics CRM servers in a data center cluster and are included in database backups and redeployments. On-disk storage of plug-ins is useful for debugging plug-ins using Microsoft Visual Studio.
 
