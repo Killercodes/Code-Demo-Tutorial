@@ -933,3 +933,58 @@ namespace Microsoft.Crm.Sdk.Samples
     }
 }
 ```
+
+
+# Workflow Extension
+
+A great example of when to use a workflow extension is when a business process requires the ability to query for an entity’s child records.  With a workflow extension, you can program the retrieval of a parent’s related children records to either ensure that all records get an updated value, aggregate totals, or applying validation rules.
+
+Another reason to use a workflow extension is maintenance.  If a business process is identified as having complex steps or multiple varying conditions, it will be easier to implement this business logic in code.  If there are changes in how this business process occurs, changes to code will be easier to apply than changes to a workflow using the Workflow Designer.
+
+Another advantage of using a workflow extension is that, like workflows, they allow the ability to be restarted if an error occurs during execution.  Every time a workflow extension executes, CRM creates an entry that allows you to inspect its execution result.  You have the ability to restart the workflow without affecting the user or having the user update any information to a particular record that the workflow extension ran against.
+
+## Create a Workflow Extension
+The easiest way to create a workflow extension is to use Visual Studio.  The requirements for creating a workflow extension are as follows:
+
+- Create a Class Library Project.
+- Extend your class from CodeActivity located in the `System.Activites` namespace.
+- Include a reference to `Microsoft.Xrm.Workflow` and `Microsoft.Xrm.Sdk` assemblies located in the CRM SDK.
+- Sign the assembly by creating a SNK file.
+
+The following code block is a basic shell that can be used to quickly create a workflow extension.  The entry point that CRM will utilize is the override void Execute method.  When a workflow is executed in CRM and the workflow extension is subsequently executed, CRM will pass in the information into the Execute method which allows for the TracingService, WorkflowContext, and OrganizationService to be utilized.
+
+```csharp
+using System.Activities;
+using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Workflow;
+
+namespace CustomWF
+{
+	public class TestWorkflow : CodeActivity
+	{
+		protected override void Execute(CodeActivityContext ActivityContext)
+		{
+			//Tracing service
+			ITracingService tracing = context.GetExtension<ITracingService>();
+			
+			//Get the context
+			IWorkflowContext WorkflowContext = ActivityContext.GetExtension<IWorkflowContext>();
+			IOrganizationServiceFactory serviceFactory = ActivityContext.GetExtension<IOrganizationServiceFactory>();
+			IOrganizationService service = serviceFactory.CreateOrganizationService(WorkflowContext.UserId);
+		}
+		
+		[Input("Test")]
+		public InArgument<string> Test { get;set; }
+	}	
+}
+
+```
+
+> The **TracingService** provides a way to log steps as the workflow extension is being executed.  This helps in identifying potential issues as code is being executed.  If an exception occurs, the information logged using the TracingService will be written to the entry that CRM creates when a workflow executes.  You can open this record and inspect the exception information and determine where to correct logic or an error in the code.
+
+> The **WorkflowContext** provides information passed in by CRM about the entity record being executed and data such as the OrganizationId, BusinessId and UserId.  You can utilize this information and save time by not having to retrieve it from CRM.
+
+> The **OrganizationService** is what is used to communicate with CRM to perform CRUD and CRM business processes.
+
+> Input and output parameters are optional, but they provide a great way to save additional time in retrieve information.  This also allows for information to be passed as the workflow is being executed to other steps.  To retrieve a value from an input parameter, use the `GetValue()` method, and to set a value to an output parameter, use the `SetValue()` method.
+
