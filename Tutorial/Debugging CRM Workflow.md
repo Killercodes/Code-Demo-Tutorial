@@ -51,6 +51,14 @@ The behaviour is exactly same as plugin debugging. You can step though the code,
 
 One more thing: You can use this exact same process to debug an Action which has a custom assembly. Here is how the profile looks when an action with custom workflow assembly is profiled.
 
-Debug an action
+> Debug an action
+<img src="/Images/debug-an-action.png">
 
+Things to note:
+- When a workflow step is profiled, the workflow assembly containing this activity is cloned and registered as a profiled workflow assembly. It is this assembly that is used in the workflow that has the name ending with “(Profiled)”
+- Even though you can see the workflow being profiled, stopping the workflow profile using the Plugin Registration tool seems impossible. You can see what is being profiled.Profiled Workflow
+
+In order to stop profiling, you’ll have to
+- Unpublish and delete the workflow/action that ends with “(Profiled)“
+- Delete the weirdly named assembly (all guid name) from the “Default Solution“. This will be under the “Plugin Assemblies” nodeCloned Workflow Assembly
 
