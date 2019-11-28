@@ -12,33 +12,42 @@ Use the correct version of Plugin Registration tool for your organisation. I cou
 After installing the profile, select the plugin profile node. You will now see a new button called **Profile Workflow**
 <img src="/Images/workflow-profile-button.png" alt="workflow-profile-button"/>
 
-Next, choose the CRM workflow which contains the custom workflow assembly. If the workflow has multiple custom workflow assembly steps, you will see each of these in this screen. You can choose the assembly to profile. It is best to choose “Persist to Entity” option, as you won’t see the exception when it is thrown by the workflow.Profile Settings
+Next, choose the CRM workflow which contains the custom workflow assembly. If the workflow has multiple custom workflow assembly steps, you will see each of these in this screen. You can choose the assembly to profile. It is best to choose “Persist to Entity” option, as you won’t see the exception when it is thrown by the workflow.
 
+> Profile Settings
+<img src="/Images/profile-settings.png">
  
 
-Once you click OK, a clone of the workflow will be created. It will have “(Profiled)” in the end. Your original workflow will now be in “Draft” state.
+Once you click OK, a clone of the workflow will be created. It will have “(Profiled)” in the end. Your original workflow will now be in **Draft** state.
 
-Workflow Cloned
+> Workflow Cloned
+<img src="/Images/workflow-cloned1.png">
+
 
 Now execute the profiled workflow manually. Confirm that the workflow has finished running.
 
-Workflow Log
+> Workflow Log
+<img src="/Images/workflow-log.png">
 
 Once the workflow has completed running, you can now use the serialised profile to debug the workflow assembly. After you click the “Replay Plugin Execution” button you will see this screen, which will help you to select the correct profile record.
 
-Debug Profile Selection
+> Debug Profile Selection
+<img src="/Images/debug-profile-selection.png">
 
 I ran the workflow manually only once and hence there is only one profile row. If the workflow ran multiple times, you will see multiple rows. After you click select, you’ll then have to choose the correct workflow assembly that matches this profile.
 
-Start Debug
+> Start Debug
+<img src="/Images/start-debug.png">
 
 Now attach the Visual Studio Debugger to the Plugin Registration Tool. Now is also a good time to put couple of breakpoints in the workflow assembly code in Visual Studio. Once you click “Start Execution”, the control should now be transferred to Visual Studio to facilitate debugging.
 
-Visual Studio Debug
+> Visual Studio Debug
+<img src="/Images/visual-studio-debug.png">
 
 The behaviour is exactly same as plugin debugging. You can step though the code, understand the root cause of any weird behaviour and resolve it. Once you complete the execution, you will see the trace logs in the profiler.
 
-Debug Result
+> Debug Result
+<img src="/Images/debug-result.png">
 
 One more thing: You can use this exact same process to debug an Action which has a custom assembly. Here is how the profile looks when an action with custom workflow assembly is profiled.
 
