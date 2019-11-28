@@ -1,7 +1,4 @@
-# Debugging custom workflow assemblies
-
-
-# My cool project and above is the logo of it
+# Debugging Custom Workflow CRM 2015
 
 Plugin Registration tool can be used to debug not just plugin assemblies, but also custom workflow assemblies. I am not sure how well known this feature is, as I could not find any documentation about this in msdn.
 
