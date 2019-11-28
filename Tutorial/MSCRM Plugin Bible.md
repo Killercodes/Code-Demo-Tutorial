@@ -971,6 +971,8 @@ namespace CustomWF
 			IWorkflowContext WorkflowContext = ActivityContext.GetExtension<IWorkflowContext>();
 			IOrganizationServiceFactory serviceFactory = ActivityContext.GetExtension<IOrganizationServiceFactory>();
 			IOrganizationService service = serviceFactory.CreateOrganizationService(WorkflowContext.UserId);
+			Entity targetEntityImage = (Entity)WorkflowContext.InputParameters["Target"];
+			var input = Test.Get<string>(ActivityContext);
 		}
 		
 		[Input("Test")]
@@ -986,5 +988,5 @@ namespace CustomWF
 
 > The **OrganizationService** is what is used to communicate with CRM to perform CRUD and CRM business processes.
 
-> Input and output parameters are optional, but they provide a great way to save additional time in retrieve information.  This also allows for information to be passed as the workflow is being executed to other steps.  To retrieve a value from an input parameter, use the `GetValue()` method, and to set a value to an output parameter, use the `SetValue()` method.
+> Input and output parameters are optional, but they provide a great way to save additional time in retrieve information.  This also allows for information to be passed as the workflow is being executed to other steps.  To retrieve a value from an input parameter, use the `Get<T>()` method, and to set a value to an output parameter, use the `Set<T>()` method.
 
