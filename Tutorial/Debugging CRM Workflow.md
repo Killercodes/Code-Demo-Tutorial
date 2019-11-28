@@ -1,5 +1,8 @@
 # Debugging custom workflow assemblies
 
+
+# My cool project and above is the logo of it
+
 Plugin Registration tool can be used to debug not just plugin assemblies, but also custom workflow assemblies. I am not sure how well known this feature is, as I could not find any documentation about this in msdn.
 
 ## Prerequisite
@@ -8,6 +11,6 @@ Use the correct version of Plugin Registration tool for your organisation. I cou
 
 After installing the profile, select the plugin profile node. You will now see a new button called **Profile Workflow**
 
-[alt text](https://raw.githubusercontent.com/Killercodes/Code-Demo-Tutorial/master/Images/workflow-profile-button.png)
+<img src="/Images/workflow-profile-button.png" alt="My cool logo"/>
 
 
