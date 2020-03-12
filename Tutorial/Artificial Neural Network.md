@@ -36,26 +36,26 @@ This book will show you how to create neural network systems from scratch using 
 
 # Data Encoding and Normalization
 One of the essential keys to working with neural networks is understanding data encoding and normalization. Take a look at the screenshot of a demo program in Figure 1-c. The demo program begins by setting up four hypothetical training data items with x-values for people's gender, age, home location, and annual income, and y-values for political inclination (conservative, liberal, or moderate). The first line of dummy data is:
-
+```
 Male  25  Rural   63,000.00  Conservative
-
+```
 The demo performs encoding on the non-numeric data (gender, locale, and politics). There are two kinds of encoding used, effects encoding for non-numeric x-values and dummy encoding for non-numeric y-values. The first line of the resulting encoded data is:
-
+```
 -1  25  1 0  63,000.00  1 0 0
-
+```
 After all data has been converted to numeric values, the data is stored into a matrix in memory and displayed. Next, the demo performs normalization on the numeric x-values (age and income). The first line of encoded and normalized data is:
-
+```
 -1.00  -0.84  1.00 0.00  0.76  1.00 0.00 0.00
-
+```
 The demo uses two different types of normalization, Gaussian normalization on the age values, and min-max normalization on the income values. Values that are Gaussian normalized take on values that are typically between -10.0 and +10.0. Values that are min-max normalized usually take on values that are between 0.0 and 1.0, or between -1.0 and +1.0.
 
 The demo program uses two different types of normalization just to illustrate the two techniques. In most realistic situations you would use either Gaussian or min-max normalization for a problem, but not both. As a general rule of thumb, min-max normalization is more common than Gaussian normalization.
 
-Data Encoding and Normalization
+# Data Encoding and Normalization
 
 Figure 1-c: Data Encoding and Normalization
 
-Overall Demo Program Structure
+## Overall Demo Program Structure
 To create the demo program, I opened Visual Studio, selected the C# console application project template, and named it Normalize. The demo program has no significant .NET version dependencies, so any version of Visual Studio should work. After the template code loaded in the editor, in the Solution Explorer window I renamed the Program.cs file to the slightly more descriptive NormalizeProgram.cs, and Visual Studio automatically renamed the Program class.
 
 At the top of the source code I deleted all using statements except the one that references the top-level System namespace. The demo was written using a static-method approach rather than an object-oriented approach for simplicity and ease of refactoring.
@@ -67,63 +67,27 @@ Methods EffectsEncoding and DummyEncoding are helpers that are called by the met
 using System;
 
 namespace Normalize
-
 {
-
   class NormalizeProgram
-
   {
-
     static void Main(string[] args)
-
     {
-
       Console.WriteLine("\nBegin data encoding and normalization demo\n");
-
       // Set up raw source data.
-
       // Encode and display data.
-
       // Normalize and display data.
-
       Console.WriteLine("\nEnd data encoding and normalization demo\n");
-
       Console.ReadLine();
-
     }
-
     static void GaussNormal(double[][] data, int column) { . . }
-
-   
-
     static void MinMaxNormal(double[][] data, int column) { . . }
-
-   
-
     static void ShowMatrix(double[][] matrix, int decimals) { . . }
-
-   
-
     static void ShowData(string[] rawData) { . . }
-
-   
-
     static void EncodeFile(string originalFile, string encodedFile,
-
       int column, string encodingType) { . . }
-
-   
-
     static string EffectsEncoding(int index, int N) { . . }
-
-   
-
     static string DummyEncoding(int index, int N) { . . }
-
-    
-
   } // Program class
-
 } // ns
 ```
 Listing 1-a: Encoding and Normalization Demo Program Structure
@@ -131,27 +95,18 @@ Listing 1-a: Encoding and Normalization Demo Program Structure
 All program control logic is contained in method Main. The method definition begins:
 ```cs
 static void Main(string[] args)
-
 {
-
   Console.WriteLine("\nBegin data encoding and normalization demo\n");
-
   string[] sourceData = new string[] {
-
     "Sex    Age  Locale    Income      Politics",
-
     "==============================================",
-
     "Male    25  Rural     63,000.00   Conservative",
-
     "Female  36  Suburban  55,000.00   Liberal",
-
     "Male    40  Urban     74,000.00   Moderate",
-
     "Female  23  Rural     28,000.00   Liberal" };
-
+```
 Four lines of dummy data are assigned to an array of strings named sourceData. The items in each string are artificially separated by multiple spaces for readability. Next, the demo displays the dummy source data by calling helper method ShowData:
-
+```cs
 Console.WriteLine("Dummy data in raw form:\n");
 
 ShowData(sourceData);
@@ -169,21 +124,15 @@ static void ShowData(string[] rawData)
   Console.WriteLine("");
 
 }
-
+```
 Next, the demo program manually sets up and displays an encoded version of the dummy source data:
-
+```cs
 string[] encodedData = new string[] {
-
   "-1  25   1  0  63,000.00   1 0 0",
-
   " 1  36   0  1  55,000.00   0 1 0",
-
   "-1  40  -1 -1  74,000.00   0 0 1",
-
   " 1  23   1  0  28,000.00   0 1 0" };
-
 Console.WriteLine("\nData after categorical encoding:\n");
-
 ShowData(encodedData);
 ```
 Again, the items are artificially separated by multiple spaces. Because there are only four lines of training data, the data was manually encoded. In most situations, training data will be in a text file and will not be manually encoded, but will be encoded in one of two ways. The first approach to encoding training data in a text file is to use the copy and paste feature in a text editor such as Notepad. This is generally feasible with relatively small files (say, fewer than 500 lines) that have relatively few categorical values (about 10 or less).
@@ -1024,3 +973,6 @@ namespace Normalize
 
 } // ns
 ```
+
+
+
