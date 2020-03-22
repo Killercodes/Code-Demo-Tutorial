@@ -270,14 +270,14 @@ Xrm.Page.data.process.removeOnStageSelected(${functionName});
 ### XrmProcessSetActiveProcess
 7.0+ Set a Process as the active process.
 ```js
-Xrm.Page.data.process.setActiveProcess("${processId}\ ${callbackfunctionName});
+Xrm.Page.data.process.setActiveProcess("${processId}, ${callbackfunctionName});
 ```
  
 ## Set Active Stage (7.0+)
 ### XrmProcessSetActiveStage
 7.0+ Set a completed stage as the active stage.
 ```js
-Xrm.Page.data.process.setActiveStage("${stageId}\ ${callbackfunctionName});
+Xrm.Page.data.process.setActiveStage("${stageId}, ${callbackfunctionName});
 ```
  
 ## Set Display State (7.0+)
@@ -298,63 +298,70 @@ Xrm.Page.ui.process.setVisible(${true|false});
 ### XrmEntityAttributesForEach
 5.0+ Apply an action in a delegate function to each object in the collection of attributes.
 ```js
-Xrm.Page.data.entity.attributes.forEach(function (control, index) {
-                "${functionbody}
-                "});
+Xrm.Page.data.entity.attributes.forEach(function (control, index) 
+	{
+		${functionbody}
+	});
 ```
  
 ## ForEach Controls (5.0+)
 ### XrmControlsForEach
 5.0+ Apply an action in a delegate function to each object in the collection of controls.
 ```js
-Xrm.Page.ui.controls.forEach(function (control, index) {
-                "${functionbody}
-                "});
+Xrm.Page.ui.controls.forEach(function (control, index) 
+	{
+		${functionbody}
+	});
 ```
  
 ## ForEach Form Selector (5.0+)
 ### XrmFormSelectorItemsForEach
 5.0+ Apply an action in a delegate function to each object in the collection of forms.
 ```js
-Xrm.Page.ui.formSelector.items.forEach(function (control, index) {
-                "${functionbody}
-                "});
+Xrm.Page.ui.formSelector.items.forEach(function (control, index) 
+	{
+        ${functionbody}
+	});
 ```
  
 ## ForEach Navigation Item (5.0+)
 ### XrmNavigationItemsForEach
 5.0+ Apply an action in a delegate function to each object in the collection of navigation items.
 ```js
-Xrm.Page.ui.navigation.items.forEach(function (control, index) {
-                "${functionbody}
-                "});
+Xrm.Page.ui.navigation.items.forEach(function (control, index) 
+	{
+		${functionbody}
+	});
 ```
  
 ## ForEach Sections (5.0+)
 ### XrmTabsSectionsForEach
 5.0+ Apply an action in a delegate function to each object in the collection of sections.
 ```js
-Xrm.Page.ui.tabs.get(${null|"tabname"|tabindex}).sections.forEach(function (control, index) {
-                "${functionbody}
-                "});
+Xrm.Page.ui.tabs.get(${null|"tabname"|tabindex}).sections.forEach(function (control, index) 
+	{
+		${functionbody}
+	});
 ```
  
 ## ForEach Section Controls (5.0+)
 ### XrmTabsSectionsControlsForEach
 5.0+ Apply an action in a delegate function to each object in the collection of controls in a section.
 ```js
-Xrm.Page.ui.tabs.get(${null|"tabname"|tabindex}).sections.get(${null|"sectionname"|sectionindex}).controls.forEach(function (control, index) {
-                "${functionbody}
-                "});
+Xrm.Page.ui.tabs.get(${null|"tabname"|tabindex}).sections.get(${null|"sectionname"|sectionindex}).controls.forEach(function (control, index) 
+	{
+		${functionbody}
+    });
 ```
  
 ## ForEach Tabs (5.0+)
 ### XrmTabsForEach
 5.0+ Apply an action in a delegate function to each object in the collection of tabs.
 ```js
-Xrm.Page.ui.tabs.forEach(function (control, index) {
-                "${functionbody}
-                "});
+Xrm.Page.ui.tabs.forEach(function (control, index) 
+	{
+		${functionbody}
+	});
 ```
  
 ## Get Attributes (5.0+)
@@ -571,9 +578,8 @@ Xrm.Page.context.prependOrgName("${path}");
 ### XrmControlsAddCustomFilter
 6.0+ Use to add filters to the results displayed in the lookup. Each filter will be combined with any previously added filters as an 'AND' condition.
 ```js
-                "var entityName = "account";
-                "var filter = "<filter type='and'><condition attribute='name' operator='eq' value='test' /></filter>";
-                "
+var entityName = "account";
+var filter = "<filter type='and'><condition attribute='name' operator='eq' value='test' /></filter>";
 Xrm.Page.getControl("${fieldname}").addCustomFilter(filter, entityName);
 ```
  
@@ -581,26 +587,26 @@ Xrm.Page.getControl("${fieldname}").addCustomFilter(filter, entityName);
 ### XrmControlsAddCustomView
 5.0+ Adds a new view for the lookup dialog box.
 ```js
-                "var viewId = "F0EE06F5-BB78-465F-BADA-FC3F5CF05300";
-                "var entityName = "account";
-                "var viewDisplayName = "Custom View";
-                "var fetchXml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "\t"<entity name='account'>" +
-                "\t"<attribute name='name' />" +
-                "\t"<attribute name='accountid' />" +
-                "\t"<filter type='and'>" +
-                "\t"<condition attribute='name' operator='eq' value='test' />" +
-                "\t"</filter>" +
-                "\t"</entity>" +
-                "\t"</fetch>";
-                "
-                "var layoutXml = "<grid name='resultset' object='1' jump='accountid' select='1' icon='1' preview='1'>" +
-                "\t"<row name='result' id='accountid'>" +
-                "\t"<cell name='name' width='150' />" +
-                "\t"</row>" +
-                "\t"</grid>";
-                "var isDefault = true;
-                "
+var viewId = "F0EE06F5-BB78-465F-BADA-FC3F5CF05300";
+var entityName = "account";
+var viewDisplayName = "Custom View";
+var fetchXml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+				"<entity name='account'>" +
+				"<attribute name='name' />" +
+				"<attribute name='accountid' />" +
+				"<filter type='and'>" +
+				"<condition attribute='name' operator='eq' value='test' />" +
+				"</filter>" +
+				"</entity>" +
+				"</fetch>";
+
+var layoutXml = "<grid name='resultset' object='1' jump='accountid' select='1' icon='1' preview='1'>" +
+				"<row name='result' id='accountid'>" +
+				"<cell name='name' width='150' />" +
+				"</row>" +
+				"</grid>";
+
+var isDefault = true;
 Xrm.Page.getControl("${fieldname}").addCustomView(viewId, entityName, viewDisplayName, fetchXml, layoutXml, isDefault);
 ```
  
@@ -804,7 +810,7 @@ Xrm.Page.getControl("${fieldname}").setLabel("${value}");
 ### XrmControlsSetNotification
 6.0+ Display a message near the control to indicate that data isn’t valid.
 ```js
-Xrm.Page.getControl("${controlname}").setNotification("${message}\ "${uniqueId}");
+Xrm.Page.getControl("${controlname}").setNotification("${message}, "${uniqueId}");
 ```
  
 ## Set Show Time (6.0+)
@@ -1063,56 +1069,56 @@ Xrm.Page.data.process.getActiveProcess().isRendered();
 ### XrmExecObjGetSaveMode
 5.0+ Returns a value indicating how the save event was initiated by the user.
 ```js
-                "execObj.getEventArgs().getSaveMode();
+	execObj.getEventArgs().getSaveMode();
 ```
  
 ## Is Default Prevented (5.0+)
 ### XrmExecObjIsDefaultPrevented
 5.0+ Returns a value indicating whether the save event has been canceled because the preventDefault method was used in this event handler or a previous event handler.
 ```js
-                "execObj.getEventArgs().isDefaultPrevented();
+    execObj.getEventArgs().isDefaultPrevented();
 ```
  
 ## Prevent Default (5.0+)
 ### XrmExecObjPreventDefault
 5.0+ Cancels the save operation, but all remaining handlers for the event will still be executed.
 ```js
-                "execObj.getEventArgs().preventDefault();
+    execObj.getEventArgs().preventDefault();
 ```
  
 ## Get Context (5.0+)
 ### XrmExecObjGetContext
 5.0+ Returns the Xrm.Page.context object.
 ```js
-                "execObj.getContext();
+	execObj.getContext();
 ```
  
 ## Get Depth (5.0+)
 ### XrmExecObjGetDepth
 5.0+ Returns a value that indicates the order in which this handler is executed.
 ```js
-                "execObj.getDepth();
+	execObj.getDepth();
 ```
  
 ## Get Event Source (5.0+)
 ### XrmExecObjGetEventSource
 5.0+ Returns a reference to the object that the event occurred on.
 ```js
-                "execObj.getEventSource();
+	execObj.getEventSource();
 ```
  
 ## Get Shared Variable (5.0+)
 ### XrmExecObjGetSharedVariable
 5.0+ Retrieves a variable set using setSharedVariable.
 ```js
-                "execObj.getSharedVariable("${key}");
+	execObj.getSharedVariable("${key}");
 ```
  
 ## Set Shared Variable (5.0+)
 ### XrmExecObjSetSharedVariable
 5.0+ Sets the value of a variable to be used by a handler after the current handler completes.
 ```js
-                "execObj.setSharedVariable("${key}\ ${value});
+	execObj.setSharedVariable("${key}\ ${value});
 ```
  
 ## Get Label (5.0+)
@@ -1350,12 +1356,12 @@ Xrm.Page.getControl("${controlname}").removeOnLoad(${functionName});
 ### XrmControlsGetViewSelectorSetCurrentView
 7.1+ Use this method to set the current view.
 ```js
-                "var contactSavedQuery = {
-                "\tentityType: 1039, // SavedQuery
-                "\tid: "3A282DA1-5D90-E011-95AE-00155D9CFA02\
-                "\tname: "Contacts Saved Query"
-                "}
-                "
+"var contactSavedQuery = {
+	entityType: 1039, // SavedQuery
+	id: "3A282DA1-5D90-E011-95AE-00155D9CFA02"
+	name: "Contacts Saved Query"
+	}
+	
 Xrm.Page.getControl("${controlname}").getViewSelector().setCurrentView(contactSavedQuery);
 ```
  
@@ -1475,7 +1481,7 @@ Xrm.Page.ui.refreshRibbon();
 ### XrmUiSetFormNotification
 6.0+ Use this method to display form level notifications.
 ```js
-Xrm.Page.ui.setFormNotification("${message}\ "${ERROR|WARNING|INFO}\ "${uniqueId}");
+Xrm.Page.ui.setFormNotification("${message}, "${ERROR|WARNING|INFO}, "${uniqueId}");
 ```
  
 ## Alert Dialog (6.0+)
@@ -1489,7 +1495,7 @@ Xrm.Utility.alertDialog("${message}\ ${functionName});
 ### XrmUtilityConfirmDialog
 6.0+ Displays a confirmation dialog box that contains an optional message as well as OK and Cancel buttons.
 ```js
-Xrm.Utility.confirmDialog("${message}\ ${[yesfunctionName]}, ${[nofunctionName]});
+Xrm.Utility.confirmDialog("${message}, ${[yesfunctionName]}, ${[nofunctionName]});
 ```
  
 ## Is Activity Type (6.0+)
@@ -1503,15 +1509,16 @@ Xrm.Utility.isActivityType("${entityName}");
 ### XrmUtilityOpenEntityForm
 5.0+ Opens an entity form.
 ```js
-                "var name = "account";
-                "var id = "5D24B2A7-957A-4D08-8723-2CEF5219FFA0";
-                "var parameters = {};
-                "parameters["formid"] = "b053a39a-041a-4356-acef-ddf00182762b";
-                "parameters["name"] = "Test";
-                "var windowOptions = {
-                "\topenInNewWindow: true
-                "};
-                "
+var name = "account";
+var id = "5D24B2A7-957A-4D08-8723-2CEF5219FFA0";
+var parameters = {};
+parameters["formid"] = "b053a39a-041a-4356-acef-ddf00182762b";
+parameters["name"] = "Test";
+
+var windowOptions = {
+		openInNewWindow: true
+	};
+
 Xrm.Utility.openEntityForm(name, id, parameters, windowOptions);
 ```
  
@@ -1519,11 +1526,11 @@ Xrm.Utility.openEntityForm(name, id, parameters, windowOptions);
 ### XrmUtilityOpenQuickCreate
 7.1+ Opens a new quick create form.
 ```js
-                "var entityName = "account";
-                "var createFromEntity = { entityType: "account\ id: Xrm.Page.data.entity.getId() };
-                "var parameters = {};
-                "parameters["name"] = "Test";
-                "
+var entityName = "account";
+var createFromEntity = { entityType: "account\ id: Xrm.Page.data.entity.getId() };
+var parameters = {};
+parameters["name"] = "Test";
+
 Xrm.Utility.openQuickCreate(entityName, createFromEntity, parameters).then(${[successFunction]}, ${[errorFunction]});
 ```
  
@@ -1531,12 +1538,12 @@ Xrm.Utility.openQuickCreate(entityName, createFromEntity, parameters).then(${[su
 ### XrmUtilityOpenWebResource
 5.0+ Opens an HTML web resource.
 ```js
-                "var webResourceName = "new_webResource.htm";
-                "var webResourceData = encodeURIComponent("first=First Value&second=Second Value");
-                "var parameters = {};
-                "var width = 300;
-                "var height = 300;
-                "
+var webResourceName = "new_webResource.htm";
+var webResourceData = encodeURIComponent("first=First Value&second=Second Value");
+var parameters = {};
+var width = 300;
+var height = 300;
+
 Xrm.Utility.openWebResource(webResourceName, webResourceData, width, height);
 ```
  
@@ -1551,9 +1558,9 @@ Xrm.Mobile.offline.isOfflineEnabled("${entityName}");
 ### XrmMobileCreateOfflineRecord
 8.2+ Creates an entity record in Dynamics 365 mobile clients while working in the offline mode.
 ```js
-                "var entity = {};
-                "entity.name = "test";
-                "
+	var entity = {};
+	entity.name = "test";
+                
 Xrm.Mobile.offline.createRecord("${entityName}\ entity).then(${[successFunction]}, ${[errorFunction]});
 ```
  
@@ -1561,8 +1568,8 @@ Xrm.Mobile.offline.createRecord("${entityName}\ entity).then(${[successFunction]
 ### XrmMobileRetrieveOfflineRecord
 8.2+ Retrieves an entity record in Dynamics 365 mobile clients while working in the offline mode.
 ```js
-                "var options = "?$select=name&$expand=primarycontactid($select=contactid,fullname);;
-                "
+	var options = "?$select=name&$expand=primarycontactid($select=contactid,fullname);
+ 
 Xrm.Mobile.offline.retrieveRecord("${entityName}\ "${id}\ options).then(${[successFunction]}, ${[errorFunction]});
 ```
  
@@ -1570,9 +1577,9 @@ Xrm.Mobile.offline.retrieveRecord("${entityName}\ "${id}\ options).then(${[succe
 ### XrmMobileRetrieveMultipleOfflineRecords
 8.2+ Retrieves a collection of entity records in Dynamics 365 mobile clients while working in the offline mode.
 ```js
-                "var options = "?$select=name&$expand=primarycontactid($select=contactid,fullname);;
-                "var maxPageSize = 100;
-                "
+	var options = "?$select=name&$expand=primarycontactid($select=contactid,fullname);
+	var maxPageSize = 100;
+                
 Xrm.Mobile.offline.retrieveMultipleRecords("${entityName}\ options, maxPageSize).then(${[successFunction]}, ${[errorFunction]});
 ```
  
@@ -1580,9 +1587,9 @@ Xrm.Mobile.offline.retrieveMultipleRecords("${entityName}\ options, maxPageSize)
 ### XrmMobileUpdateOfflineRecord
 8.2+ Updates an entity record in Dynamics 365 mobile clients while working in the offline mode.
 ```js
-                "var entity = {};
-                "entity.name = "test";
-                "
+	var entity = {};
+	entity.name = "test";
+                
 Xrm.Mobile.offline.updateRecord("${entityName}\ "${id}\ entity).then(${[successFunction]}, ${[errorFunction]});
 ```
  
@@ -1597,21 +1604,21 @@ Xrm.Mobile.offline.deleteRecord("${entityName}\ "${id}").then(${[successFunction
 ### XrmControlsAddNotification
 8.2+ Displays an error or recommendation notification for a control, and lets you specify actions to execute based on the notification.
 ```js
-                "var actionCollection = {
-                "\tmessage: "${message}\
-                "\tactions: null
-                "};
-                "
-                "actionCollection.actions = [function () {
-                "\t${functionbody}
-                "}];
-                "
+var actionCollection = {
+		message: "${message},
+		actions: null
+	};
+
+actionCollection.actions = [function () {
+	${functionbody}
+}];
+
 Xrm.Page.getControl("${fieldname}").addNotification({
-                "\tmessages: ["${message}"],
-                "\tnotificationLevel: "${RECOMMENDATION|ERROR}\
-                "\tuniqueId: "${uniqueId}\
-                "\tactions: [actionCollection]
-                "});
+		messages: ["${message}"],
+		notificationLevel: "${RECOMMENDATION|ERROR}",
+		uniqueId: "${uniqueId}",
+		actions: [actionCollection]
+	});
 ```
  
 ## Get Barcode Value (8.2+)
@@ -1639,7 +1646,7 @@ Xrm.Panel.LoadPanel("${url}\ "${title}");
 ### XrmExecObjGetFormContext
 8.2+ Method that returns a reference to either the form (Xrm.Page) or editable grid depending on where the method was called.
 ```js
-                "execObj.getFormContext();
+    execObj.getFormContext();
 ```
  
 ## Get Process Instances (8.2+)
@@ -1710,8 +1717,8 @@ Xrm.Page.ui.quickForms"
 8.1+ Apply an action in a delegate function to each object in the collection of quick view controls on a form.
 ```js
 Xrm.Page.ui.quickForms.forEach(function (qvcontrol, index) {
-                "${functionbody}
-                "});
+	${functionbody}
+});
 ```
  
 ## QuickForm Get Control (8.1+)
